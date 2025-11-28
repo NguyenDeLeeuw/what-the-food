@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu du Soir</title>
+    
+    <!-- Icônes pour iOS -->
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Menu du Soir">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.3; }
+        }
+
+        .logo {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-3deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Back button */
+        .back-btn {
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            padding: 12px 20px;
+            margin: 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Content */
+        .content {
+            padding: 30px 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: linear-gradient(135deg, #fff9f5 0%, #ffffff 100%);
+            border: 2px solid #ffe4d6;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.25);
+            border-color: #ff6b6b;
+        }
+
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.2) rotate(8deg);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        /* Option buttons */
+        .option-btn {
+            background: white;
+            border: 2px solid #ffe4d6;
+            border-radius: 16px;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option-btn:hover {
+            border-color: #ff6b6b;
+            background: linear-gradient(135deg, #fff9f5 0%, #ffffff 100%);
+            transform: translateX(8px);
+            box-shadow: 0 8px 24px rgba(255, 107, 107, 0.2);
+        }
+
+        .option-icon {
+            font-size: 32px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff9f5;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover .option-icon {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            transform: rotate(-5deg) scale(1.1);
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 17px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: left;
+        }
+
+        .option-arrow {
+            font-size: 24px;
+            color: #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover .option-arrow {
+            color: #ff6b6b;
+            transform: translateX(4px);
+        }
+
+        /* Result */
+        .result-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: celebrate 0.6s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        .result-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .result-name {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .result-description {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #ee5a6f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            background: white;
+            color: #ff6b6b;
+            border: 2px solid #ffe4d6;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            border-color: #ff6b6b;
+            background: #fff9f5;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #fff9f5 0%, #ffe4d6 100%);
+            padding: 25px;
+            text-align: center;
+            border-top: 2px solid #ffe4d6;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        /* Liste complète */
+        .cuisine-section {
+            margin-bottom: 40px;
+        }
+
+        .cuisine-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ff6b6b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .meat-category {
+            margin-bottom: 20px;
+        }
+
+        .meat-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dish-item {
+            background: #fff9f5;
+            border: 1px solid #ffe4d6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dish-item:hover {
+            background: white;
+            border-color: #ff6b6b;
+            transform: translateX(5px);
+        }
+
+        .dish-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .dish-type {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page d'accueil -->
+        <div id="home-screen">
+            <div class="header">
+                <div class="logo">🍽️</div>
+                <div class="title">Menu du Soir</div>
+                <div class="subtitle">Une sélection de plats pour ce soir</div>
+            </div>
+            <div class="content">
+                <div class="card" onclick="showRandomDish()">
+                    <div class="card-icon">🎲</div>
+                    <div class="card-title">Surprise du Chef</div>
+                    <div class="card-description">Laissez-vous tenter par une suggestion aléatoire</div>
+                </div>
+                <div class="card" onclick="showTypeChoice()">
+                    <div class="card-icon">📖</div>
+                    <div class="card-title">À la Carte</div>
+                    <div class="card-description">Composez votre plat selon vos envies</div>
+                </div>
+                <div class="card" onclick="showAllDishes()">
+                    <div class="card-icon">📋</div>
+                    <div class="card-title">Voir tous les plats</div>
+                    <div class="card-description">Parcourez l'intégralité de notre sélection</div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer-text">Cuisine française • italienne • vietnamienne • japonaise</div>
+            </div>
+        </div>
+
+        <!-- Choix type de plat -->
+        <div id="type-screen" class="hidden">
+            <div class="header">
+                <div class="title" style="font-size: 24px;">Type de plat</div>
+            </div>
+            <button class="back-btn" onclick="showHome()">← Retour</button>
+            <div class="content" id="type-list"></div>
+        </div>
+
+        <!-- Choix viande -->
+        <div id="meat-screen" class="hidden">
+            <div class="header">
+                <div class="title" style="font-size: 24px;">Type de viande</div>
+            </div>
+            <button class="back-btn" onclick="showTypeChoice()">← Retour</button>
+            <div class="content" id="meat-list"></div>
+        </div>
+
+        <!-- Choix cuisine -->
+        <div id="cuisine-screen" class="hidden">
+            <div class="header">
+                <div class="title" style="font-size: 24px;">Type de cuisine</div>
+            </div>
+            <button class="back-btn" onclick="showMeatChoice()">← Retour</button>
+            <div class="content" id="cuisine-list"></div>
+        </div>
+
+        <!-- Résultat -->
+        <div id="result-screen" class="hidden">
+            <div class="result-hero">
+                <div class="result-icon">🎉</div>
+                <div class="result-badge" id="cuisine-badge"></div>
+                <div class="result-name" id="dish-name"></div>
+                <div class="result-description" id="dish-description"></div>
+            </div>
+            <div class="content">
+                <button class="btn-primary" onclick="showAnotherOption()">Voir un autre plat</button>
+                <button class="btn-secondary" onclick="showHome()">Retour à l'accueil</button>
+            </div>
+        </div>
+
+        <!-- Liste complète -->
+        <div id="all-dishes-screen" class="hidden">
+            <div class="header">
+                <div class="title" style="font-size: 24px;">Tous les plats</div>
+            </div>
+            <button class="back-btn" onclick="showHome()">← Retour</button>
+            <div class="content" id="all-dishes-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const dishes = [
+            // Cuisine française
+            {name: "Bœuf bourguignon", cuisine: "française", type: "plat mijoté", meat: "bœuf", description: "Bœuf mijoté au vin rouge avec carottes, oignons et lardons. Si ton bœuf n'a pas eu le temps de cuver, c'est que tu n'as pas assez mijoté. Le savais-tu ? Ce plat était à l'origine un moyen pour les Bourguignons d'utiliser leurs vins les moins bons."},
+            {name: "Blanquette de veau", cuisine: "française", type: "plat mijoté", meat: "veau", description: "Veau mijoté dans une sauce crémeuse aux champignons et petits oignons. La blancheur de la sauce cache la complexité du geste : c'est comme un cygne, élégant dessus, pagaille dessous. Le savais-tu ? La blanquette est l'un des plats préférés des Français, juste après la langue de belle-mère (non comestible)."},
+            {name: "Pot-au-feu", cuisine: "française", type: "soupe", meat: "bœuf", description: "Bouillon de bœuf avec légumes racines et viande tendre. Le plat qui transforme ta cuisine en spa pour viande pendant 3 heures. Le savais-tu ? Henri IV voulait qu'il y ait 'une poule au pot' chaque dimanche, mais bon, lui il avait pas Netflix."},
+            {name: "Coq au vin", cuisine: "française", type: "plat mijoté", meat: "poulet", description: "Poulet mijoté au vin rouge avec champignons et lardons. Le coq finit bourré dans la casserole, comme après un mariage au village. Le savais-tu ? Jules César aurait déclaré le coq emblème de la Gaule, mais c'était surtout pour embêter les Gaulois."},
+            {name: "Poitrine de porc confite", cuisine: "française", type: "plat mijoté", meat: "porc", description: "Poitrine de porc cuite lentement jusqu'à tendreté fondante. Tellement fondant que ta fourchette se demande si elle sert vraiment à quelque chose. Le savais-tu ? Le confit était à l'origine une technique de conservation, maintenant c'est juste une excuse pour manger du gras."},
+            {name: "Poulet rôti au citron et thym", cuisine: "française", type: "autre", meat: "poulet", description: "Poulet doré au four avec citron, thym et pommes de terre. Le dimanche français par excellence : simple, généreux, et ça sent bon dans toute la maison. Le savais-tu ? Un Français moyen mange environ 24kg de poulet par an, soit à peu près la moitié d'un élevage."},
+            {name: "Magret de canard sauce aux cerises", cuisine: "française", type: "autre", meat: "canard", description: "Magret rosé avec une sauce sucrée-acidulée aux cerises. Le canard qui pensait finir en foie gras a eu de la chance finalement. Le savais-tu ? Le magret était considéré comme un déchet avant les années 1960, maintenant ça coûte un bras."},
+            {name: "Carbonnade flamande", cuisine: "française", type: "plat mijoté", meat: "bœuf", description: "Ragoût de bœuf à la bière avec pain d'épices. Les Flamands ont compris qu'on pouvait cuisiner avec la bière et pas juste la boire, révolutionnaire. Le savais-tu ? Le pain d'épices dans la sauce était à l'origine un épaississant de pauvre, maintenant c'est sophistiqué."},
+            {name: "Lapin à la moutarde", cuisine: "française", type: "plat mijoté", meat: "lapin", description: "Lapin mijoté dans une sauce crémeuse à la moutarde. Le lapin a couru vite, mais pas assez pour échapper à ta marmite dijonnaise. Le savais-tu ? En France, on mange plus de lapin que de bœuf au 19ème siècle, puis les lapins ont eu de meilleurs agents."},
+            {name: "Hachis Parmentier", cuisine: "française", type: "pomme de terre", meat: "bœuf", description: "Viande hachée gratinée sous une purée de pommes de terre. Le gratin qui prouve que même les restes peuvent devenir des stars avec un coup de four. Le savais-tu ? Parmentier a popularisé la pomme de terre en France en faisant garder ses champs le jour... mais pas la nuit."},
+            {name: "Gratin dauphinois", cuisine: "française", type: "pomme de terre", meat: "végétarien", description: "Pommes de terre fondantes cuites dans la crème et l'ail. Le plat qui fait mentir ceux qui disent qu'ils font attention à leur ligne. Le savais-tu ? Le vrai gratin dauphinois ne contient PAS de fromage, les puristes te surveillent."},
+            {name: "Quiche lorraine", cuisine: "française", type: "pain/crêpe", meat: "porc", description: "Tarte salée garnie de lardons, crème et œufs. La Lorraine en a fait SA spécialité et elle défend son territoire farouchement. Le savais-tu ? Ajouter du fromage dans une quiche lorraine est considéré comme un crime en Lorraine (mais c'est tellement bon)."},
+            {name: "Croque-monsieur béchamel maison", cuisine: "française", type: "pain/crêpe", meat: "porc", description: "Sandwich chaud au jambon gratinée avec béchamel. Le sandwich qui a mis un costume trois-pièces et qui refuse de se faire manger avec les doigts. Le savais-tu ? Le croque-madame est la même chose avec un œuf dessus, parce qu'apparemment les femmes ont besoin de chapeaux."},
+            {name: "Crêpes bretonnes", cuisine: "française", type: "pain/crêpe", meat: "végétarien", description: "Crêpes fines sucrées ou galettes de sarrasin salées. Les Bretons ont réussi à rendre la farine cool en la faisant sauter dans une poêle. Le savais-tu ? La Chandeleur célèbre les crêpes, mais c'était à l'origine une fête pour célébrer... la lumière. Les priorités ont changé."},
+            {name: "Raclette", cuisine: "française", type: "fondue/pierrade", meat: "porc", description: "Fromage fondu avec charcuterie et pommes de terre. Le plat social par excellence où chacun surveille la portion de fromage du voisin. Le savais-tu ? La raclette vient de 'racler', parce qu'à l'origine on raclait le fromage fondu devant la cheminée."},
+            {name: "Pierrade", cuisine: "française", type: "fondue/pierrade", meat: "mixte", description: "Viandes et légumes grillés à table sur pierre chaude. Le barbecue d'intérieur pour quand il fait trop froid dehors mais que tu veux quand même jouer avec le feu. Le savais-tu ? Les pierres à pierrade peuvent atteindre 400°C, parfait pour brûler tes doigts impatients."},
+            {name: "Fondue savoyarde", cuisine: "française", type: "fondue/pierrade", meat: "végétarien", description: "Fromages fondus où tremper du pain. Le plat qui transforme le pain en vaisseau spatial vers le fond du caquelon. Le savais-tu ? Perdre son pain dans la fondue signifie traditionellement embrasser son voisin... ou faire la vaisselle."},
+            {name: "Endives braisées au jambon", cuisine: "française", type: "autre", meat: "porc", description: "Endives enroulées de jambon, gratinées à la béchamel. Le légume amer qui a trouvé des alliés pour devenir mangeable. Le savais-tu ? L'endive a été découverte par hasard en Belgique, comme la plupart des bonnes choses en cuisine."},
+            {name: "Soupe à l'oignon gratinée", cuisine: "française", type: "soupe", meat: "végétarien", description: "Soupe d'oignons caramélisés gratinée au fromage. Le plat des Halles qui faisait pleurer les ouvriers, mais pour de bonnes raisons cette fois. Le savais-tu ? Cette soupe était le remède anti-gueule de bois des fêtards parisiens du 19ème siècle."},
+            {name: "Velouté de légumes", cuisine: "française", type: "soupe", meat: "végétarien", description: "Soupe onctueuse de légumes de saison. La version liquide du 'mange tes légumes' qui passe mieux auprès des récalcitrants. Le savais-tu ? Le mot 'velouté' vient de la texture, pas du tissu, désolé pour la confusion."},
+            {name: "Omelette aux fines herbes", cuisine: "française", type: "autre", meat: "végétarien", description: "Omelette moelleuse parfumée aux herbes fraîches. Le plat qui prouve que la simplicité demande de la technique, comme faire semblant d'écouter. Le savais-tu ? Il existe plus de 500 façons de préparer une omelette, mais ta grand-mère n'en reconnaît qu'une seule."},
+            {name: "Saumon mi-cuit", cuisine: "française", type: "autre", meat: "poisson/fruits de mer", description: "Saumon cuit à basse température, fondant à cœur. Le saumon qui hésite entre être cru ou cuit, comme toi entre Netflix et sortir. Le savais-tu ? La cuisson mi-cuit permet de garder tous les oméga-3, ces trucs bons pour le cerveau dont tu as bien besoin."},
+            {name: "Tagliatelles sauce safran", cuisine: "française", type: "pâtes", meat: "végétarien", description: "Pâtes fraîches dans une crème safranée. Le safran coûte plus cher que l'or au gramme, mais au moins ça se mange. Le savais-tu ? Il faut 150 fleurs de crocus pour obtenir 1g de safran, maintenant tu comprends le prix."},
+            {name: "Cabillaud en papillote", cuisine: "française", type: "autre", meat: "poisson/fruits de mer", description: "Cabillaud cuit au four avec légumes en papillote. Le poisson qui prend un bain de vapeur aromatique, version spa gastronomique. Le savais-tu ? La papillote permet de cuire sans matière grasse, parfait pour ceux qui mentent à leur balance."},
+            {name: "Moules marinières", cuisine: "française", type: "autre", meat: "poisson/fruits de mer", description: "Moules cuites au vin blanc, échalotes et persil. Le plat qui transforme ton repas en course d'endurance de décorticage. Le savais-tu ? Les moules filtrent jusqu'à 25 litres d'eau par jour, elles sont plus productives que toi un lundi matin."},
+            {name: "Saumon en croûte", cuisine: "française", type: "autre", meat: "poisson/fruits de mer", description: "Saumon enrobé de pâte feuilletée avec épinards. Le saumon qui s'est offert un manteau pour l'hiver, classe et au chaud. Le savais-tu ? Cette recette était servie lors des banquets royaux, maintenant tu peux te sentir princier dans ta cuisine."},
+            {name: "Pita maison", cuisine: "française", type: "fast-food maison", meat: "mixte", description: "Pain pita garni de viandes grillées et crudités. Le kebab qui a grandi dans ta cuisine et qui n'a pas honte de ses origines. Le savais-tu ? Le pita existe depuis 4000 ans, c'est le pain qui a traversé les âges sans prendre une ride."},
+            {name: "Burrito maison", cuisine: "française", type: "fast-food maison", meat: "mixte", description: "Tortilla roulée garnie de viande, riz, haricots et fromage. Le wrap mexicain qui refuse de se plier face aux fast-foods industriels. Le savais-tu ? Un burrito mal roulé n'est qu'une salade avec des problèmes d'identité."},
+            {name: "Fish and chips", cuisine: "française", type: "friture", meat: "poisson/fruits de mer", description: "Poisson pané et frites croustillantes. Le plat britannique qui prouve que tout est meilleur quand c'est frit dans la même huile. Le savais-tu ? Les fish and chips étaient vendus dans du papier journal jusqu'en 1980, l'emballage faisait partie de l'expérience."},
+            
+            // Cuisine italienne
+            {name: "Spaghetti carbonara", cuisine: "italienne", type: "pâtes", meat: "porc", description: "Pâtes crémeuses aux œufs, guanciale et pecorino. La recette qui fait hurler les Italiens quand tu ajoutes de la crème : 'Mamma mia!'. Le savais-tu ? La carbonara ne contient PAS de crème, mais on te pardonne si tu triches (en secret)."},
+            {name: "Spaghetti bolognaise", cuisine: "italienne", type: "pâtes", meat: "bœuf", description: "Spaghetti avec sauce tomate et viande hachée mijotée. Le plat italien que les Italiens ne reconnaissent pas vraiment, mais qu'on adore quand même. Le savais-tu ? À Bologne, on sert le ragù avec des tagliatelles, pas des spaghetti. Oups."},
+            {name: "Lasagnes bolognaise", cuisine: "italienne", type: "pâtes", meat: "bœuf", description: "Couches de pâtes, viande, béchamel et fromage gratinées. Le mille-feuille salé qui nécessite un cours de géométrie pour être parfait. Le savais-tu ? Garfield n'a pas tort, les lasagnes c'est la vie en format plat."},
+            {name: "Risotto aux champignons", cuisine: "italienne", type: "riz", meat: "végétarien", description: "Riz crémeux aux champignons et parmesan. Le plat qui demande de remuer pendant 20 minutes, parfait pour méditer sur tes choix de vie. Le savais-tu ? Le riz Arborio absorbe 5 fois son volume en liquide, comme ton canapé absorbe tes week-ends."},
+            {name: "Risotto aux saint-jacques en carpaccio", cuisine: "italienne", type: "riz", meat: "poisson/fruits de mer", description: "Risotto crémeux surmonté de fines tranches de saint-jacques crues. Le mariage terre-mer qui prouve que les opposés s'attirent, même dans ton assiette. Le savais-tu ? Les saint-jacques sont hermaphrodites, ce qui les rend encore plus fascinantes que ton ex."},
+            {name: "Pizza margherita maison", cuisine: "italienne", type: "pain/crêpe", meat: "végétarien", description: "Pizza tomate, mozzarella et basilic. Les trois couleurs du drapeau italien sur une pâte, le patriotisme n'a jamais été aussi délicieux. Le savais-tu ? Cette pizza a été créée en l'honneur de la reine Margherita en 1889, la flatterie culinaire à son meilleur."},
+            {name: "Focaccia", cuisine: "italienne", type: "pain/crêpe", meat: "végétarien", description: "Pain plat italien à l'huile d'olive et romarin. Le pain qui se prend pour une pizza mais qui n'a pas eu le courage d'aller jusqu'au bout. Le savais-tu ? En Ligurie, la focaccia se mange au petit-déjeuner trempée dans le cappuccino. Oui, vraiment."},
+            {name: "Osso buco", cuisine: "italienne", type: "plat mijoté", meat: "veau", description: "Jarret de veau mijoté avec tomates et gremolata. Le plat où l'os troué ('osso buco') cache la moelle, le trésor caché du boucher. Le savais-tu ? La moelle est si précieuse que certains restaurants te donnent une petite cuillère spéciale pour la récupérer."},
+            {name: "Piccata de veau au citron", cuisine: "italienne", type: "autre", meat: "veau", description: "Escalopes fines sauce citron, vin blanc et câpres. Le veau qui prend un bain acidulé express, speed dating culinaire réussi. Le savais-tu ? 'Piccata' vient de 'piccare' qui signifie piquer, référence aux câpres qui piquent le palais."},
+            {name: "Saltimbocca", cuisine: "italienne", type: "autre", meat: "veau", description: "Escalopes de veau au jambon cru et sauge. Le nom signifie 'saute en bouche' et c'est exactement ce qui se passe, magie romaine. Le savais-tu ? Ce plat était servi dans les trattorias romaines depuis le 19ème siècle, la street food avant l'heure."},
+            {name: "Escalope milanaise", cuisine: "italienne", type: "friture", meat: "veau", description: "Escalope panée à la milanaise, croustillante. Le schnitzel italien qui refuse d'admettre ses origines autrichiennes, fierté locale oblige. Le savais-tu ? L'escalope milanaise se mange traditionnellement avec un os, sinon c'est juste une escalope panée."},
+            {name: "Ravioli ricotta épinards", cuisine: "italienne", type: "pâtes", meat: "végétarien", description: "Ravioli maison farcis de ricotta et épinards. Les petits coussins italiens qui cachent un trésor crémeux sous leur pâte dorée. Le savais-tu ? Les ravioli datent du 14ème siècle, la comfort food médiévale."},
+            
+            // Cuisine vietnamienne
+            {name: "Phở bò", cuisine: "vietnamienne", type: "soupe", meat: "bœuf", description: "Soupe de nouilles au bouillon de bœuf parfumé. Le plat national vietnamien qui se prononce 'feu' mais qui réchauffe ton âme. Le savais-tu ? Le bouillon du phở mijote pendant 12 heures minimum, c'est le marathon de la cuisine vietnamienne."},
+            {name: "Bún chả", cuisine: "vietnamienne", type: "nouilles", meat: "porc", description: "Vermicelles avec porc grillé et sauce nuoc mam. Le plat qui a conquis Obama lors de sa visite à Hanoi, si c'est bon pour un président... Le savais-tu ? Ce plat se mange à midi à Hanoi, le manger le soir est un aveu que tu n'es pas du coin."},
+            {name: "Bánh xèo", cuisine: "vietnamienne", type: "pain/crêpe", meat: "porc", description: "Crêpe croustillante au curcuma garnie de porc et crevettes. La crêpe qui fait 'xèo' dans la poêle, onomatopée culinaire vietnamienne. Le savais-tu ? Le curcuma donne la couleur jaune et les propriétés anti-inflammatoires, santé et saveur réunies."},
+            {name: "Cánh gà chiên nước mắm", cuisine: "vietnamienne", type: "friture", meat: "poulet", description: "Ailes de poulet frites caramélisées au nuoc mam. Les ailes de poulet qui ont pris un bain de sauce magique vietnamienne, addiction garantie. Le savais-tu ? Le nuoc mam fermente pendant 12 mois dans des fûts, comme un bon vin mais avec du poisson."},
+            {name: "Bò lúc lắc", cuisine: "vietnamienne", type: "autre", meat: "bœuf", description: "Bœuf sauté aux oignons et poivre noir. Le bœuf qui 'secoue' ('lúc lắc') dans le wok, disco culinaire vietnamienne. Le savais-tu ? Ce plat était à l'origine servi dans les restaurants français de Saigon, fusion avant que ce soit cool."},
+            {name: "Cơm tấm", cuisine: "vietnamienne", type: "riz", meat: "porc", description: "Riz brisé avec côte de porc grillée. Le riz cassé qui était un déchet devient un plat de roi, belle revanche sociale. Le savais-tu ? Le riz brisé était la nourriture des pauvres, maintenant c'est une spécialité recherchée, la gentrification du riz."},
+            {name: "Gỏi cuốn", cuisine: "vietnamienne", type: "autre", meat: "porc", description: "Rouleaux de printemps frais aux crevettes et porc. Le rouleau transparent qui montre fièrement ses ingrédients, honnêteté culinaire totale. Le savais-tu ? La galette de riz doit être réhydratée exactement 3 secondes, sinon c'est soit du chewing-gum soit du papier."},
+            {name: "Chả giò", cuisine: "vietnamienne", type: "friture", meat: "porc", description: "Nems frits croustillants. Le rouleau qui a pris un bain d'huile bouillante et qui en ressort glorieux et doré. Le savais-tu ? Au Nord du Vietnam, on dit 'nem', au Sud 'chả giò', même combat mais débat passionné."},
+            {name: "Thịt kho tàu", cuisine: "vietnamienne", type: "plat mijoté", meat: "porc", description: "Porc braisé au caramel et sauce soja. Le porc qui nage dans le caramel salé, confusion sucrée-salée réussie. Le savais-tu ? Ce plat se mange traditionnellement au Têt (nouvel an vietnamien), l'équivalent de ta dinde de Noël."},
+            {name: "Gà kho gừng", cuisine: "vietnamienne", type: "plat mijoté", meat: "poulet", description: "Poulet braisé au gingembre et caramel. Le poulet qui prend un bain de jouvence au gingembre, anti-âge culinaire. Le savais-tu ? Le gingembre vietnamien est plus doux que son cousin indien, c'est le gingembre zen."},
+            {name: "Xào rau", cuisine: "vietnamienne", type: "autre", meat: "végétarien", description: "Légumes sautés à la vietnamienne. Le sauté express au wok qui cuit en 3 minutes, le fast-food sain existe. Le savais-tu ? Le wok doit être si chaud que les légumes doivent 'danser' dedans, chorégraphie culinaire."},
+            {name: "Bún riêu", cuisine: "vietnamienne", type: "nouilles", meat: "porc", description: "Soupe de nouilles à la pâte de crabe et tomates. Le phở qui a décidé de passer au rouge, changement de look réussi. Le savais-tu ? Le 'riêu' vient de la pâte de crabe fermentée, le umami vietnamien à son paroxysme."},
+            {name: "Croquettes de crevettes", cuisine: "vietnamienne", type: "friture", meat: "poisson/fruits de mer", description: "Croquettes croustillantes de crevettes et légumes. Les beignets de crevettes qui ont décidé de prendre une forme plus civilisée. Le savais-tu ? Ces croquettes sont la street food vietnamienne par excellence, le snack qui rend accro."},
+            
+            // Cuisine japonaise
+            {name: "Ramen maison", cuisine: "japonaise", type: "nouilles", meat: "porc", description: "Nouilles dans un bouillon riche avec porc, œuf et légumes. Le bol qui réchauffe l'âme et qui nécessite une serviette, slurp assumé. Le savais-tu ? Faire du bruit en mangeant des ramen est un compliment au chef au Japon, enfin une excuse valable."},
+            {name: "Tsukemen", cuisine: "japonaise", type: "nouilles", meat: "porc", description: "Nouilles froides à tremper dans un bouillon concentré. Le ramen qui a décidé de se la jouer indépendant, sauce à part s'il vous plaît. Le savais-tu ? Les nouilles doivent être trempées à moitié seulement, pas tout le way, c'est la règle non-écrite."},
+            {name: "Tonkatsu", cuisine: "japonaise", type: "friture", meat: "porc", description: "Escalope de porc panée croustillante. Le porc qui s'est roulé dans la chapelure et qui a plongé dans l'huile chaude, YOLO culinaire. Le savais-tu ? Le tonkatsu a été inventé en 1899, inspiré par les escalopes européennes mais en mieux."},
+            {name: "Gyūdon", cuisine: "japonaise", type: "riz", meat: "bœuf", description: "Bol de riz avec bœuf mijoté sucré-salé. Le fast-food japonais qui se respecte, rapidité et réconfort en un bol. Le savais-tu ? Yoshinoya sert des gyūdon depuis 1899 et ils en ont vendu des milliards, le McDo japonais."},
+            {name: "Okonomiyaki", cuisine: "japonaise", type: "pain/crêpe", meat: "porc", description: "Crêpe japonaise garnie de chou et nappée de sauce. La pizza-crêpe-omelette qui ne sait pas ce qu'elle est mais qui est délicieuse. Le savais-tu ? 'Okonomi' signifie 'ce que tu aimes', c'est la crêpe démocratique personnalisable."},
+            {name: "Sukiyaki", cuisine: "japonaise", type: "plat mijoté", meat: "bœuf", description: "Fondue japonaise de bœuf et légumes dans un bouillon sucré. Le hot pot qui cuit à table, parfait pour prolonger le repas et les discussions. Le savais-tu ? Traditionnellement, on trempe les ingrédients dans un œuf cru battu, pour les aventureux."},
+            {name: "Teriyaki de poulet", cuisine: "japonaise", type: "autre", meat: "poulet", description: "Poulet grillé laqué sauce teriyaki sucrée-salée. Le poulet qui brille comme s'il sortait du salon de beauté, laqué à la perfection. Le savais-tu ? 'Teri' signifie brillant et 'yaki' signifie grillé, littéralement du poulet brillant grillé."},
+            {name: "Teriyaki de saumon", cuisine: "japonaise", type: "autre", meat: "poisson/fruits de mer", description: "Saumon grillé sauce teriyaki. Le saumon qui a troqué sa peau écailleuse contre un manteau laqué brillant, transformation réussie. Le savais-tu ? Le saumon teriyaki est devenu populaire après la Seconde Guerre mondiale, fusion nippo-américaine."},
+            {name: "Karaage", cuisine: "japonaise", type: "friture", meat: "poulet", description: "Poulet frit japonais mariné au gingembre et soja. Le poulet frit qui a fait un stage au Japon et qui en revient amélioré. Le savais-tu ? Le karaage a été inventé dans les années 1920, inspiré par les techniques chinoises de friture."},
+            {name: "Sushi maison", cuisine: "japonaise", type: "riz", meat: "poisson/fruits de mer", description: "Sushi et maki faits maison avec poisson frais. Le plat qui transforme ta cuisine en atelier d'origami comestible. Le savais-tu ? Il faut 10 ans pour devenir maître sushi au Japon, toi tu le fais en 2 heures YouTube."}
+        ];
+
+        const types = [
+            {name: "nouilles", icon: "🍜"},
+            {name: "pâtes", icon: "🍝"},
+            {name: "riz", icon: "🍚"},
+            {name: "pomme de terre", icon: "🥔"},
+            {name: "soupe", icon: "🍲"},
+            {name: "plat mijoté", icon: "🍖"},
+            {name: "fondue/pierrade", icon: "🫕"},
+            {name: "pain/crêpe", icon: "🥞"},
+            {name: "fast-food maison", icon: "🌯"},
+            {name: "friture", icon: "🍤"},
+            {name: "autre", icon: "✨"}
+        ];
+
+        const meats = [
+            {name: "bœuf", icon: "🥩"},
+            {name: "porc", icon: "🥓"},
+            {name: "poulet", icon: "🍗"},
+            {name: "canard", icon: "🦆"},
+            {name: "lapin", icon: "🐰"},
+            {name: "veau", icon: "🍖"},
+            {name: "poisson/fruits de mer", icon: "🐟"},
+            {name: "mixte", icon: "🍱", label: "Plats mixtes"},
+            {name: "végétarien", icon: "🥗"}
+        ];
+
+        const cuisines = [
+            {name: "française", icon: "🇫🇷"},
+            {name: "italienne", icon: "🇮🇹"},
+            {name: "vietnamienne", icon: "🇻🇳"},
+            {name: "japonaise", icon: "🇯🇵"}
+        ];
+
+        let currentType = '';
+        let currentMeat = '';
+        let filteredDishes = [];
+
+        function showHome() {
+            document.getElementById('home-screen').style.display = 'block';
+            document.getElementById('type-screen').style.display = 'none';
+            document.getElementById('meat-screen').style.display = 'none';
+            document.getElementById('cuisine-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'none';
+            document.getElementById('all-dishes-screen').style.display = 'none';
+        }
+
+        function showRandomDish() {
+            const randomDish = dishes[Math.floor(Math.random() * dishes.length)];
+            displayDish(randomDish);
+        }
+
+        function showTypeChoice() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('type-screen').style.display = 'block';
+            
+            const availableTypes = [...new Set(dishes.map(d => d.type))];
+            const typeList = document.getElementById('type-list');
+            typeList.innerHTML = '';
+            
+            types.forEach(type => {
+                if (availableTypes.includes(type.name)) {
+                    const btn = createOptionButton(type.icon, type.name, () => selectType(type.name));
+                    typeList.appendChild(btn);
+                }
+            });
+        }
+
+        function selectType(type) {
+            currentType = type;
+            const dishesForType = dishes.filter(d => d.type === type);
+            const availableMeats = [...new Set(dishesForType.map(d => d.meat))];
+            
+            document.getElementById('type-screen').style.display = 'none';
+            document.getElementById('meat-screen').style.display = 'block';
+            
+            const meatList = document.getElementById('meat-list');
+            meatList.innerHTML = '';
+            
+            meats.forEach(meat => {
+                if (availableMeats.includes(meat.name)) {
+                    const btn = createOptionButton(meat.icon, meat.label || meat.name, () => selectMeat(meat.name));
+                    meatList.appendChild(btn);
+                }
+            });
+        }
+
+        function showMeatChoice() {
+            document.getElementById('cuisine-screen').style.display = 'none';
+            document.getElementById('meat-screen').style.display = 'block';
+        }
+
+        function selectMeat(meat) {
+            currentMeat = meat;
+            filteredDishes = dishes.filter(d => d.type === currentType && d.meat === meat);
+            
+            if (filteredDishes.length === 0) {
+                alert('Aucun plat ne correspond à ces critères !');
+                return;
+            }
+            
+            const availableCuisines = [...new Set(filteredDishes.map(d => d.cuisine))];
+            
+            document.getElementById('meat-screen').style.display = 'none';
+            document.getElementById('cuisine-screen').style.display = 'block';
+            
+            const cuisineList = document.getElementById('cuisine-list');
+            cuisineList.innerHTML = '';
+            
+            cuisines.forEach(cuisine => {
+                if (availableCuisines.includes(cuisine.name)) {
+                    const btn = createOptionButton(cuisine.icon, cuisine.name, () => selectCuisine(cuisine.name));
+                    cuisineList.appendChild(btn);
+                }
+            });
+        }
+
+        function selectCuisine(cuisine) {
+            const finalDishes = filteredDishes.filter(d => d.cuisine === cuisine);
+            if (finalDishes.length === 0) {
+                alert('Aucun plat ne correspond !');
+                return;
+            }
+            const selectedDish = finalDishes[Math.floor(Math.random() * finalDishes.length)];
+            displayDish(selectedDish);
+        }
+
+        function displayDish(dish) {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('type-screen').style.display = 'none';
+            document.getElementById('meat-screen').style.display = 'none';
+            document.getElementById('cuisine-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            
+            document.getElementById('cuisine-badge').textContent = dish.cuisine.toUpperCase();
+            document.getElementById('dish-name').textContent = dish.name;
+            document.getElementById('dish-description').textContent = dish.description;
+        }
+
+        function showAnotherOption() {
+            if (filteredDishes.length > 0) {
+                showMeatChoice();
+                document.getElementById('meat-screen').style.display = 'none';
+                document.getElementById('cuisine-screen').style.display = 'block';
+            } else {
+                showRandomDish();
+            }
+        }
+
+        function showAllDishes() {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('all-dishes-screen').style.display = 'block';
+            
+            const container = document.getElementById('all-dishes-list');
+            container.innerHTML = '';
+            
+            const cuisineGroups = {
+                'française': {icon: '🇫🇷', dishes: []},
+                'italienne': {icon: '🇮🇹', dishes: []},
+                'vietnamienne': {icon: '🇻🇳', dishes: []},
+                'japonaise': {icon: '🇯🇵', dishes: []}
+            };
+            
+            dishes.forEach(dish => {
+                cuisineGroups[dish.cuisine].dishes.push(dish);
+            });
+            
+            Object.keys(cuisineGroups).forEach(cuisineName => {
+                const data = cuisineGroups[cuisineName];
+                if (data.dishes.length === 0) return;
+                
+                const section = document.createElement('div');
+                section.className = 'cuisine-section';
+                
+                const title = document.createElement('div');
+                title.className = 'cuisine-title';
+                title.innerHTML = `${data.icon} Cuisine ${cuisineName}`;
+                section.appendChild(title);
+                
+                const meatGroups = {};
+                data.dishes.forEach(dish => {
+                    if (!meatGroups[dish.meat]) meatGroups[dish.meat] = [];
+                    meatGroups[dish.meat].push(dish);
+                });
+                
+                Object.keys(meatGroups).sort().forEach(meatType => {
+                    const meatCat = document.createElement('div');
+                    meatCat.className = 'meat-category';
+                    
+                    const meatTitle = document.createElement('div');
+                    meatTitle.className = 'meat-title';
+                    meatTitle.textContent = meatType;
+                    meatCat.appendChild(meatTitle);
+                    
+                    meatGroups[meatType].forEach(dish => {
+                        const item = document.createElement('div');
+                        item.className = 'dish-item';
+                        item.onclick = () => displayDish(dish);
+                        
+                        const name = document.createElement('div');
+                        name.className = 'dish-name';
+                        name.textContent = dish.name;
+                        item.appendChild(name);
+                        
+                        const type = document.createElement('div');
+                        type.className = 'dish-type';
+                        type.textContent = dish.type;
+                        item.appendChild(type);
+                        
+                        meatCat.appendChild(item);
+                    });
+                    
+                    section.appendChild(meatCat);
+                });
+                
+                container.appendChild(section);
+            });
+        }
+
+        function createOptionButton(icon, text, onClick) {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            btn.onclick = onClick;
+            
+            const iconDiv = document.createElement('div');
+            iconDiv.className = 'option-icon';
+            iconDiv.textContent = icon;
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'option-text';
+            textDiv.textContent = text.charAt(0).toUpperCase() + text.slice(1);
+            
+            const arrow = document.createElement('div');
+            arrow.className = 'option-arrow';
+            arrow.textContent = '›';
+            
+            btn.appendChild(iconDiv);
+            btn.appendChild(textDiv);
+            btn.appendChild(arrow);
+            
+            return btn;
+        }
+    </script>
+</body>
+</html>
